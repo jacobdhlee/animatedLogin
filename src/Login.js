@@ -179,10 +179,3 @@ const styles = StyleSheet.create({
 })
 
 export default Login;
-
-// <Button 
-//               text={'Log In'}
-//               addStyle={styles.addStyleButton]}
-//               onPress={this.fadeOutAnimation}
-//               addTextStyle={[styles.textColor]}
-//             />
