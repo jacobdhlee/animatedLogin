@@ -7,7 +7,7 @@ import {
   Animated,
   Platform,
   Dimensions,
-  Easing,
+  LayoutAnimation,
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -19,13 +19,17 @@ const { width, height } = Dimensions.get('window')
 class App extends Component {
   constructor() {
     super()
-    
+    this.state = {
+      toggle: false,
+    }
+
     this.animateValue1 = new Animated.Value(0)
     this.animateValue2 = new Animated.Value(0)
     this.animateValue3 = new Animated.Value(0)
 
     this.backAnimation = this.backAnimation.bind(this);
     this.animated = this.animated.bind(this);
+    this.expandComponent = this.expandComponent.bind(this);
   }
 
   componentWillMount() {
@@ -76,12 +80,15 @@ class App extends Component {
         Actions.login()
         this.animated()
       }, 1000) 
-    } else {
       setTimeout( () => {
-        Actions.signup()
         this.animated()
-      }, 1000) 
+      }, 5000) 
     }
+  }
+
+  expandComponent() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({toggle: !this.state.toggle});
   }
 
   render() {
@@ -96,6 +103,26 @@ class App extends Component {
       outputRange: [-1000, 0]
     })
 
+    const logAndSignButton = (
+      <View style={styles.buttonContainer}>
+        <Animated.View style={[{ left: loginButton }, { opacity: this.animateValue2}]}>
+          <TouchableOpacity style={styles.button} onPress={() => this.backAnimation('login')}>
+            <Text style={styles.text}>Log in</Text>
+          </TouchableOpacity>
+        </Animated.View>
+
+        <Animated.View style={[{ right: signupButton }, { opacity: this.animateValue3}]}>
+          <TouchableOpacity style={styles.button} onPress={(form) => this.backAnimation()}>
+            <Text style={styles.text}>Sign up</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </View>
+    )
+
+    const signupForm = (
+      <View>
+      </View>
+    )
     return (
       <View style={styles.container}>
         <Animated.View style={[styles.animationContainer, { opacity: this.animateValue1 }]}>

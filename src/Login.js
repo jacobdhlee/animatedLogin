@@ -77,13 +77,24 @@ class Login extends Component {
     })
 
     const interpolated = this.animatedValue2.interpolate({
-      inputRange: [0, 1],
+      inputRange: [0, 0.1],
       outputRange: [1, 100],
+    })
+
+    const collapInterpolated = this.animatedValue2.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0]
     })
 
     const expandStyle = {
       transform: [
         {scale: interpolated}
+      ]
+    }
+
+    const collapStyle = {
+      transform: [
+        {scale: collapInterpolated}
       ]
     }
 
@@ -117,7 +128,8 @@ class Login extends Component {
         </View>
         <View style={styles.buttonBox}>
           <Animated.View style={[styles.button, { left: movingButton }]}>
-            <Animated.View style={expandStyle}>
+            <Animated.View style={[styles.behindLogin, expandStyle]}/>
+            <Animated.View style={collapStyle}>
               <TouchableOpacity style={styles.addStyleButton} onPress={this.fadeOutAnimation}>
                 <Text style={styles.text}>Log In</Text>
               </TouchableOpacity>
@@ -156,13 +168,19 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   button: {
+    // position: 'absolute',
     width: 100,
     height: 50,
     marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  behindLogin: {
+    backgroundColor: "#007aff",
+    width: 1,
+    height: 1,
+    borderRadius: 1,
+  },
   addStyleButton: {
     width: 100,
     height: 50,
